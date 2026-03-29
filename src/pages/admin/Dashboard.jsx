@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import AdminLayout from '../../components/AdminLayout';
 import api from '../../api/axios';
 import { Link } from 'react-router-dom';
+import { 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell
+} from 'recharts';
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -62,6 +65,69 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Monthly Statistics Chart */}
+          <div className="card-dark p-4 mt-4">
+            <h5 style={{ color: 'var(--primary)', marginBottom: '1.5rem' }}>Project Statistics (Monthly)</h5>
+            <div style={{ width: '100%', height: 400 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={stats.monthlyData}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+                  <XAxis 
+                    dataKey="month" 
+                    stroke="var(--text-muted)" 
+                    fontSize={12}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis 
+                    stroke="var(--text-muted)" 
+                    fontSize={12}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'var(--bg-card)', 
+                      border: '1px solid var(--border-color)',
+                      borderRadius: '8px',
+                      color: 'var(--text-light)'
+                    }}
+                    itemStyle={{ fontSize: '13px' }}
+                  />
+                  <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
+                  <Bar 
+                    name="Projects Count" 
+                    dataKey="count" 
+                    fill="var(--primary)" 
+                    radius={[4, 4, 0, 0]} 
+                    barSize={30}
+                  />
+                  <Bar 
+                    name="Total Cost (Cr)" 
+                    dataKey="totalCost" 
+                    fill="#28a745" 
+                    radius={[4, 4, 0, 0]} 
+                    barSize={30}
+                  />
+                  <Bar 
+                    name="Avg Duration (Mo)" 
+                    dataKey="totalDuration" 
+                    fill="#0dcaf0" 
+                    radius={[4, 4, 0, 0]} 
+                    barSize={30}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            <p className="text-muted mt-3" style={{ fontSize: '0.8rem' }}>
+              <i className="bi bi-info-circle me-1"></i>
+              Cost is shown in Crores (Cr). Duration is the sum of project durations for that month.
+            </p>
           </div>
         </>
       )}

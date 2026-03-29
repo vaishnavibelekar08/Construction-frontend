@@ -5,6 +5,7 @@ import api from '../../api/axios';
 
 const AdminLogin = () => {
   const [form, setForm] = useState({ phone: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useAuth();
@@ -62,8 +63,11 @@ const AdminLogin = () => {
                 <span className="input-group-text" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-color)', borderRight: 'none', color: 'var(--primary)' }}>
                   <i className="bi bi-lock"></i>
                 </span>
-                <input type="password" className="form-control" style={{ borderLeft: 'none' }} placeholder="Your password" value={form.password}
+                <input type={showPassword ? "text" : "password"} className="form-control" style={{ borderLeft: 'none', borderRight: 'none' }} placeholder="Your password" value={form.password}
                   onChange={e => setForm({ ...form, password: e.target.value })} required />
+                <button type="button" className="input-group-text" onClick={() => setShowPassword(!showPassword)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border-color)', borderLeft: 'none', color: 'var(--primary)', cursor: 'pointer' }}>
+                  <i className={`bi bi-eye${showPassword ? '-slash' : ''}`}></i>
+                </button>
               </div>
             </div>
             <button type="submit" className="btn btn-gold w-100 py-3" disabled={loading}>
